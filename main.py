@@ -1,19 +1,38 @@
-def sentence():
-    sentence = input("Enter the sentence:")
-    result=[]
-    for capital, comma in sentence:
+def detecter():
+    # Open the file and read the team data
+    file = open("list1.txt", "r")
+    team_data = {}
 
-        if comma == ',':
-            result.append(',  ')
+    for line in file:
+        team_name, years_str = line.strip().split(" =")
+        # Remove brackets, split by commas, and convert to integers
+        years = [int(year) for year in years_str[1:-1].split(',')]
+        team_data[team_name] = years
 
-        elif capital > 0 and sentence[capital - 1] == sentence[capital].isalpha():
-            result.append(comma.upper())
-        else:
-            result.append(comma)
+    file.close()
+    return team_data
 
 
 def main():
-    sentence()
+    team_data = detecter()
+    team_name = input("Enter the team name: ").strip()
 
+    if team_name in team_data:
+        years_won = team_data[team_name]
+        print(f"{team_name} won in the following years: {years_won}")
+        print(f"Total number of wins: {len(years_won)}")
+    else:
+        print("Team not found.")
+
+
+# Run the program
+main()
+
+
+def main():
+    detecter()
 
 main()
+
+
+
